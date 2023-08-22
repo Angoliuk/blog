@@ -7,7 +7,14 @@ import { useCallback, useMemo } from "react";
 export default function PostsFeedPage() {
   const { push } = useRouter();
 
-  const { data: postsResponse } = api.posts.get.useInfiniteQuery(
+  const {
+    data: postsResponse,
+    isFetching,
+    isLoading,
+    isRefetching,
+    fetchNextPage,
+    isError,
+  } = api.posts.get.useInfiniteQuery(
     {},
     { getNextPageParam: (prevPage) => prevPage.offset }
   );
@@ -38,6 +45,11 @@ export default function PostsFeedPage() {
         keyExtractor={(elem) => elem.item.id}
         listItem={postItem}
         data={posts}
+        isFetchingMore={isFetching}
+        isFirstLoading={isLoading}
+        isRefetching={isRefetching}
+        loadMore={fetchNextPage}
+        isError={isError}
       />
     </PageWrapper>
   );
