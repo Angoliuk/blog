@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "blog/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "blog/server/api/trpc";
 
 export const postsRouter = createTRPCRouter({
   get: publicProcedure
@@ -37,13 +33,10 @@ export const postsRouter = createTRPCRouter({
     .input(
       z.object({ title: z.string().min(1), description: z.string().min(1) })
     )
-    .mutation(async ({ input, ctx: { prisma, session } }) => {
+    .mutation(async ({ input, ctx: { prisma } }) => {
       await prisma.post.create({
         data: { ...input, creatorId: "session.user.id" },
       });
-      // return {
-      //   greeting: `Hello ${input.text}`,
-      // };
     }),
   delete: publicProcedure
     .input(z.object({ postId: z.string().min(1) }))
@@ -51,9 +44,6 @@ export const postsRouter = createTRPCRouter({
       await prisma.post.delete({
         where: { id: input.postId },
       });
-      // return {
-      //   greeting: `Hello ${input.text}`,
-      // };
     }),
   edit: publicProcedure
     .input(
@@ -70,8 +60,5 @@ export const postsRouter = createTRPCRouter({
         data: input.updatedValues,
         where: { id: input.postId },
       });
-      // return {
-      //   greeting: `Hello ${input.text}`,
-      // };
     }),
 });
