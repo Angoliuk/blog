@@ -1,4 +1,4 @@
-import { PageWrapper, Post } from "blog/components";
+import { Loader, PageWrapper, Post } from "blog/components";
 import { api } from "blog/utils";
 import { useRouter } from "next/router";
 
@@ -10,7 +10,7 @@ export default function PostDetailsPage() {
     isError,
     isLoading,
   } = api.posts.getById.useQuery(
-    // TODO: remove typ assertion
+    // TODO: remove type assertion
     { postId: query.postId as string },
     { enabled: !!query.postId }
   );
@@ -26,7 +26,7 @@ export default function PostDetailsPage() {
   // TODO: move to wrapper for handling these states
   if (isError) return <p>Error</p>;
 
-  if (isLoading) return <p>loading</p>;
+  if (isLoading) return <Loader />;
 
   if (!post) return <p>No post found</p>;
 

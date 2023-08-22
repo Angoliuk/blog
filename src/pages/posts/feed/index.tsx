@@ -45,6 +45,7 @@ export default function PostsFeedPage() {
         keyExtractor={(elem) => elem.item.id}
         listItem={postItem}
         data={posts}
+        emptyComponent={<p>No posts found</p>}
         isFetchingMore={isFetching}
         isFirstLoading={isLoading}
         isRefetching={isRefetching}
