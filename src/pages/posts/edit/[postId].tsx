@@ -1,4 +1,4 @@
-import { PageWrapper } from "blog/components";
+import { Loader, PageWrapper } from "blog/components";
 import { api } from "blog/utils";
 import { useRouter } from "next/router";
 
@@ -15,26 +15,25 @@ export default function EditPostPage() {
     isError,
     isLoading,
   } = api.posts.getById.useQuery(
-    // TODO: remove typ assertion
+    // TODO: remove type assertion
     { postId: postId as string },
     { enabled: !!postId }
   );
 
   const { mutate: editPost, isLoading: isSubmitLoading } =
-    api.posts.edit.useMutation();
+    api.posts.edit.useMutation({ onSuccess: () => push("/") });
 
   const { control, handleSubmit } = Post.useForm(post);
 
   const handleFormSubmit = handleSubmit((values) => {
     if (!post) return;
-    editPost({ postId: post?.id, updatedValues: values });
-    void push("/");
+    editPost({ postId: post.id, updatedValues: values });
   });
 
   // TODO: move to wrapper for handling these states
   if (isError) return <p>Error</p>;
 
-  if (isLoading) return <p>loading</p>;
+  if (isLoading) return <Loader />;
 
   if (!post) return <p>No post found</p>;
 

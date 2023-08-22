@@ -8,12 +8,9 @@ export default function CreatePostPage() {
   const { control, handleSubmit } = Post.useForm();
 
   const { mutate: createPost, isLoading: isSubmitLoading } =
-    api.posts.create.useMutation();
+    api.posts.create.useMutation({ onSuccess: () => push("/") });
 
-  const handleFormSubmit = handleSubmit((values) => {
-    createPost(values);
-    void push("/");
-  });
+  const handleFormSubmit = handleSubmit((values) => createPost(values));
 
   return (
     <PageWrapper>
