@@ -8,7 +8,7 @@ export const Card: FC<CardProps> = memo(({ post, onPostClick }) => {
   return (
     <Button
       onClick={onPostClick}
-      className="flex w-full flex-col items-start rounded-[20px] bg-white p-5 drop-shadow-card"
+      className="my-4 flex w-full flex-col items-start rounded-[20px] bg-white p-5 drop-shadow-card"
     >
       <p className="text-xl">
         {post.title}
