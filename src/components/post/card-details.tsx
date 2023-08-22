@@ -19,18 +19,20 @@ export const CardDetails: FC<CardDetailsProps> = memo(
           </span>
         </p>
         <p className="px-4">{post.description}</p>
-        <Button
-          className="group flex self-end rounded-md border p-2 transition-all hover:bg-slate-600"
-          onClick={onPostDeleteClick}
-        >
-          <p className="group-hover:text-white">Delete</p>
-        </Button>
-        <Button
-          className="group flex self-end rounded-md border p-2 transition-all hover:bg-slate-600"
-          onClick={onPostEditClick}
-        >
-          <p className="group-hover:text-white">Edit</p>
-        </Button>
+        <div className="flex items-center gap-4 self-end">
+          <Button
+            className="group rounded-md border p-2 transition-all hover:bg-slate-600"
+            onClick={onPostDeleteClick}
+          >
+            <p className="group-hover:text-white">Delete</p>
+          </Button>
+          <Button
+            className="group rounded-md border p-2 transition-all hover:bg-slate-600"
+            onClick={onPostEditClick}
+          >
+            <p className="group-hover:text-white">Edit</p>
+          </Button>
+        </div>
       </div>
     );
   }

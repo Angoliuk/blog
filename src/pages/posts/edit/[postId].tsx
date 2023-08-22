@@ -21,7 +21,7 @@ export default function EditPostPage() {
   );
 
   const { mutate: editPost, isLoading: isSubmitLoading } =
-    api.posts.edit.useMutation({ onSuccess: () => push("/") });
+    api.posts.edit.useMutation({ onSuccess: () => push("/posts/feed") });
 
   const { control, handleSubmit } = Post.useForm(post);
 

@@ -16,11 +16,7 @@ export default function PostDetailsPage() {
   );
 
   const { mutate: deletePost } = api.posts.delete.useMutation({
-    onSuccess: () => {
-      void push({
-        pathname: "/",
-      });
-    },
+    onSuccess: () => push("/posts/feed"),
   });
 
   // TODO: move to wrapper for handling these states

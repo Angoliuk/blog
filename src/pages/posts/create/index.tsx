@@ -8,7 +8,7 @@ export default function CreatePostPage() {
   const { control, handleSubmit } = Post.useForm();
 
   const { mutate: createPost, isLoading: isSubmitLoading } =
-    api.posts.create.useMutation({ onSuccess: () => push("/") });
+    api.posts.create.useMutation({ onSuccess: () => push("/posts/feed") });
 
   const handleFormSubmit = handleSubmit((values) => createPost(values));
 
