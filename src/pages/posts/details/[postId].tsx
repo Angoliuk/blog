@@ -15,6 +15,14 @@ export default function PostDetailsPage() {
     { enabled: !!query.postId }
   );
 
+  const { mutate: deletePost } = api.posts.delete.useMutation({
+    onSuccess: () => {
+      void push({
+        pathname: "/",
+      });
+    },
+  });
+
   // TODO: move to wrapper for handling these states
   if (isError) return <p>Error</p>;
 
@@ -32,6 +40,7 @@ export default function PostDetailsPage() {
             query: { postId: post.id },
           })
         }
+        onPostDeleteClick={() => deletePost({ postId: post.id })}
       />
     </PageWrapper>
   );
