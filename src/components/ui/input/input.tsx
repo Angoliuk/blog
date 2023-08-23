@@ -43,14 +43,14 @@ const inputClassName = (type: InputTypes, component: "input" | "textarea") =>
   tw(
     "outline-none focus-visible:outline-none",
     type !== InputTypes.NONE &&
-      "w-full h-12 px-5 py-3 rounded-xl border-[1px] text-black-1000 focus-visible:border-black-600",
+      "w-full h-12 px-5 py-3 rounded-xl border-[1px] text-black focus-visible:border-slate-600",
     type !== InputTypes.NONE &&
       component === "textarea" &&
       "align-top pt-4 min-h-[50px] max-h-[150px] h-auto",
     {
-      [InputTypes.ERROR]: "border-red-1000 focus-visible:border-red-1000",
-      [InputTypes.TOUCHED]: "border-black-600",
-      [InputTypes.DEFAULT]: "border-black-100",
+      [InputTypes.ERROR]: "border-red-700 focus-visible:border-red-800",
+      [InputTypes.TOUCHED]: "border-slate-600",
+      [InputTypes.DEFAULT]: "border-slate-100",
       [InputTypes.NONE]: "",
     }[type]
   );

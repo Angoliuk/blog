@@ -5,7 +5,7 @@ import { type FormValues } from "./use-form";
 
 export type FormProps = {
   control: Control<FormValues>;
-  isLoading: boolean;
+  isLoading?: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
@@ -15,16 +15,16 @@ export const Form: FC<FormProps> = memo(({ control, onSubmit, isLoading }) => {
       <FormField
         showPlaceholderWithValue={false}
         control={control}
-        name="title"
-        placeholder="title"
+        name="email"
+        placeholder="email"
         className="m-2"
       />
       <FormField
         showPlaceholderWithValue={false}
         control={control}
-        inputType="textarea"
-        name="description"
-        placeholder="description"
+        name="password"
+        type="password"
+        placeholder="password"
         className="m-2"
       />
       <Button

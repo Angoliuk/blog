@@ -132,11 +132,11 @@ export const Field = memo(
       return (
         <div className={tw("relative max-w-full", className)}>
           {isInputHighlighted && showPlaceholderWithValue && (
-            <div className="bg-white-1000 absolute -top-2 left-6 z-10 px-1.5">
+            <div className="absolute -top-2 left-6 z-10 bg-white px-1.5">
               <p
                 className={tw(
-                  "bg-white-1000 text-regular-caption",
-                  error && touched ? "text-red-1000" : "text-black-600"
+                  "bg-white",
+                  error && touched ? "text-red-700" : "text-black"
                 )}
               >
                 {placeholder}
@@ -166,7 +166,7 @@ export const Field = memo(
               ) : (
                 <Input
                   ref={ref as Ref<HTMLInputElement>}
-                  className={tw("placeholder-black-600", inputClassName)}
+                  className={tw("placeholder-slate-600", inputClassName)}
                   readOnly={editable == null ? false : !editable}
                   type={removeDefaultStyles ? InputTypes.NONE : inputStyleType}
                   spellCheck={autoCorrect}
@@ -193,7 +193,7 @@ export const Field = memo(
               {type === "password" && !RightImageComponent && (
                 <Button
                   type={ButtonTypes.CLEAR}
-                  className="bg-white-1000 absolute z-10 -translate-x-8 translate-y-3 self-end"
+                  className="absolute z-10 -translate-x-8 translate-y-3 self-end bg-white"
                   onClick={() => setIsHidden(!isHidden)}
                 >
                   <Image
@@ -206,7 +206,7 @@ export const Field = memo(
                 <Button
                   type={ButtonTypes.CLEAR}
                   className={tw(
-                    "bg-white-1000 z-50 -translate-x-8 -translate-y-4 self-end",
+                    "z-50 -translate-x-8 -translate-y-4 self-end bg-white",
                     rightImageContainerClassName
                   )}
                   onClick={onRightImageClick}
@@ -214,7 +214,7 @@ export const Field = memo(
                   {typeof RightImageComponent === "function" ? (
                     <RightImageComponent
                       className={tw(
-                        "bg-white-1000 absolute z-50",
+                        "absolute z-50 bg-white",
                         rightImageClassName
                       )}
                     />

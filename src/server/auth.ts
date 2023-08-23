@@ -1,60 +1,63 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
-import {
-  getServerSession,
-  type NextAuthOptions,
-  type DefaultSession,
-} from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import { prisma } from "blog/server/db";
+import CredentialsProvider from "next-auth/providers/credentials";
+import argon from "argon2";
+import { z } from "zod";
+import { env } from "blog/env.mjs";
 
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    };
-  }
+const loginUserSchema = z.object({
+  email: z.string().regex(/^[a-z0-9_-]{3,15}$/g, "Invalid username"),
+  password: z.string().min(5, "Password should be minimum 5 characters"),
+});
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
-
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-  },
   adapter: PrismaAdapter(prisma),
   providers: [
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
+    // TODO: try to move auth logic to trpc route
+    CredentialsProvider({
+      credentials: {
+        email: { type: "text", placeholder: "test@test.com" },
+        password: { type: "password", placeholder: "testPass" },
+      },
+      async authorize(credentials) {
+        const { email, password } = loginUserSchema.parse(credentials);
+
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
+
+        if (!user) return null;
+
+        const isPasswordValid = await argon.verify(user.password, password);
+
+        return isPasswordValid ? { id: user.id } : null;
+      },
+    }),
   ],
+  callbacks: {
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id;
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
+  },
+  secret: env.JWT_SECRET,
 };
 
 /**

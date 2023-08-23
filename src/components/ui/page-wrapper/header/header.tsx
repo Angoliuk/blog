@@ -35,7 +35,7 @@ export const Header = memo(
     ) : (
       <div
         className={tw(
-          "desktop:justify-between desktop:rounded-2xl desktop:py-1 desktop:shadow-[0_8px_16px_1px_rgba(141,141,141,0.12)] sticky top-0 z-50 flex h-24 w-full items-center bg-zinc-900/80 p-4"
+          "sticky top-0 z-50 flex h-24 w-full items-center bg-zinc-700 p-4 desktop:justify-between desktop:py-1 desktop:shadow-[0_8px_16px_1px_rgba(141,141,141,0.12)]"
         )}
       >
         <HeaderLeft

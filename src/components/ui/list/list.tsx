@@ -29,6 +29,8 @@ export type ListProps<T> = {
   headerComponent?: ReactNode;
   className?: string;
   loaderWrapperClassName?: string;
+  isContentWrapped?: boolean;
+  contentWrapperClassName?: string;
   endReachedThreshold?: number;
   listItem: ListItem<T>;
   keyExtractor: (item: ListItemProps<T>) => string;
@@ -49,6 +51,8 @@ export const List = <T,>({
   errorComponent,
   emptyComponent,
   headerComponent,
+  isContentWrapped,
+  contentWrapperClassName,
   className,
   loaderWrapperClassName,
   endReachedThreshold,
@@ -78,6 +82,20 @@ export const List = <T,>({
   if ((!data || data.length === 0) && emptyComponent)
     return <>{emptyComponent}</>;
 
+  const withContentWrapper = (children: ReactNode) =>
+    isContentWrapped ? (
+      <div
+        className={tw(
+          "flex w-auto flex-row flex-wrap items-center gap-4",
+          contentWrapperClassName
+        )}
+      >
+        {children}
+      </div>
+    ) : (
+      children
+    );
+
   // eslint-disable-next-line no-nested-ternary
   const direction = horizontal
     ? inverted
@@ -100,11 +118,13 @@ export const List = <T,>({
           className="my-4 min-h-[20px]"
         />
       )}
-      {data?.map((item, index) => (
-        <Fragment key={keyExtractor({ item, index })}>
-          {listItem({ item, index })}
-        </Fragment>
-      ))}
+      {withContentWrapper(
+        data?.map((item, index) => (
+          <Fragment key={keyExtractor({ item, index })}>
+            {listItem({ item, index })}
+          </Fragment>
+        ))
+      )}
       {isFetchingMore && !isRefetching && (
         <Loader
           wrapperClassName={loaderWrapperClassName}

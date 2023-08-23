@@ -38,10 +38,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading ?? disabled}
         className={tw(
           {
-            // TODO: add reusable styles, unfinished
             [ButtonTypes.CLEAR]: undefined,
-            [ButtonTypes.SUBMIT]: "w-full min-w-fit rounded-[10px]",
-            [ButtonTypes.SUBMIT_LOADING]: "w-full min-w-fit rounded-[10px]",
+            [ButtonTypes.SUBMIT]:
+              "group m-auto mt-4 flex w-1/2 justify-center rounded-md border p-2 transition-all hover:bg-slate-600",
+            [ButtonTypes.SUBMIT_LOADING]:
+              "group m-auto mt-4 flex w-1/2 justify-center rounded-md border bg-slate-600 p-2",
           }[type],
           className
         )}

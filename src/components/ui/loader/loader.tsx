@@ -12,7 +12,7 @@ export const Loader: FC<LoaderProps> = ({
     <div
       {...props}
       className={tw(
-        "border-black-200 border-t-orange-1000 inline-block h-5 w-5 animate-spin rounded-full border-4",
+        "inline-block h-5 w-5 animate-spin rounded-full border-4 border-slate-200 border-t-slate-700",
         className
       )}
     />

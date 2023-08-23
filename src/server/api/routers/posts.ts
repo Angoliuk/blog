@@ -1,6 +1,11 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "blog/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "blog/server/api/trpc";
 
+// TODO: error handling
 export const postsRouter = createTRPCRouter({
   get: publicProcedure
     .input(
@@ -29,29 +34,32 @@ export const postsRouter = createTRPCRouter({
       });
       return post;
     }),
-  create: publicProcedure
+  create: protectedProcedure
     .input(
-      z.object({ title: z.string().min(1), description: z.string().min(1) })
+      z.object({
+        title: z.string().min(1).max(100),
+        description: z.string().min(1).max(600),
+      })
     )
-    .mutation(async ({ input, ctx: { prisma } }) => {
+    .mutation(async ({ input, ctx: { prisma, session } }) => {
       await prisma.post.create({
-        data: { ...input, creatorId: "session.user.id" },
+        data: { ...input, authorId: session.user.id },
       });
     }),
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.object({ postId: z.string().min(1) }))
     .mutation(async ({ input, ctx: { prisma } }) => {
       await prisma.post.delete({
         where: { id: input.postId },
       });
     }),
-  edit: publicProcedure
+  edit: protectedProcedure
     .input(
       z.object({
         postId: z.string().min(1),
         updatedValues: z.object({
-          title: z.string().min(1),
-          description: z.string().min(1),
+          title: z.string().min(1).max(100).optional(),
+          description: z.string().min(1).max(600).optional(),
         }),
       })
     )

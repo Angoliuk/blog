@@ -1,8 +1,10 @@
 import { PageWrapper, Post } from "blog/components";
+import { useSessionChecker } from "blog/hooks";
 import { api } from "blog/utils";
 import { useRouter } from "next/router";
 
 export default function CreatePostPage() {
+  useSessionChecker();
   const { push } = useRouter();
 
   const { control, handleSubmit } = Post.useForm();

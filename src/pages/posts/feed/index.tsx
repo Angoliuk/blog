@@ -42,10 +42,14 @@ export default function PostsFeedPage() {
   return (
     <PageWrapper>
       <List
+        className="pb-5"
         keyExtractor={(elem) => elem.item.id}
         listItem={postItem}
         data={posts}
-        emptyComponent={<p>No posts found</p>}
+        isContentWrapped
+        emptyComponent={
+          <p className="m-auto w-full text-center">No posts found</p>
+        }
         isFetchingMore={isFetching}
         isFirstLoading={isLoading}
         isRefetching={isRefetching}

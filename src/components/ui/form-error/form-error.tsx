@@ -7,5 +7,5 @@ export type FormErrorProps = {
 };
 
 export const FormError: FC<FormErrorProps> = ({ errorText }) => (
-  <p className="text-red-1000 text-regular-caption">{errorText ?? " "}</p>
+  <p className="text-red-700">{errorText ?? " "}</p>
 );

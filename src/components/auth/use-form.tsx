@@ -5,24 +5,24 @@ import { z } from "zod";
 export type FormValues = z.infer<ReturnType<typeof useValidation>>;
 
 const defaultValues: FormValues = {
-  title: "",
-  description: "",
+  email: "",
+  password: "",
 };
 
 const useValidation = () => {
   return useMemo(
     () =>
       z.object({
-        title: z.string().min(1).max(100),
-        description: z.string().min(1).max(600),
+        email: z.string().min(1).max(25),
+        password: z.string().min(1).max(50),
       }),
     []
   );
 };
 
-export const useForm = (initialValues?: FormValues | null) => {
+export const useForm = () => {
   return useHookForm({
-    defaultValues: initialValues ?? defaultValues,
+    defaultValues: defaultValues,
     resolver: zodResolver(useValidation()),
   });
 };

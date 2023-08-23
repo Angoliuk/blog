@@ -3,8 +3,10 @@ import { api } from "blog/utils";
 import { useRouter } from "next/router";
 
 import { Post } from "blog/components";
+import { useSessionChecker } from "blog/hooks";
 
 export default function EditPostPage() {
+  useSessionChecker();
   const {
     push,
     query: { postId },

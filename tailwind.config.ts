@@ -10,6 +10,10 @@ export default {
           "0 8px 16px rgba(141 ,141, 141, 0.12)",
         ],
       },
+      screens: {
+        desktop: { min: "1025px" },
+        mobile: { max: "1024px" },
+      },
     },
   },
   plugins: [],
