@@ -1,11 +1,7 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
 await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
-const config = {
+const nextConfig = {
   reactStrictMode: true,
   // eslint-disable-next-line @typescript-eslint/require-await
   async redirects() {
@@ -17,15 +13,32 @@ const config = {
       },
     ];
   },
-  /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
   },
 };
 
-export default config;
+// https://github.com/vercel/next.js/discussions/15341#discussioncomment-5700982
+// Workaround to run init for Next
+const initServices = async () => {
+  return fetch("http://localhost:3000/api/_init")
+    .then(() => {
+      return true;
+    })
+    .catch(() => false);
+};
+
+// eslint-disable-next-line import/no-anonymous-default-export
+const preparedNext = () => {
+  console.log("[ next.config.js (start) ] => preparing");
+
+  setTimeout(async () => {
+    await initServices();
+    console.log("[ next.config.js (start) ] => initialized");
+  }, 1000);
+
+  return nextConfig;
+};
+
+export default preparedNext;
