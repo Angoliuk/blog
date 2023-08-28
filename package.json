@@ -22,9 +22,11 @@
     "argon2": "^0.31.0",
     "next": "^13.4.2",
     "next-auth": "^4.22.4",
+    "node-cron": "^3.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
+    "rss-parser": "^3.13.0",
     "superjson": "^1.13.1",
     "tailwind-merge": "^1.14.0",
     "zod": "^3.21.4"
